@@ -38,6 +38,22 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Sync Global Theme Color based on route
+  React.useEffect(() => {
+    const getThemeColor = (path) => {
+      switch(path) {
+        case '/hakkimizda': return '#D4C0A8';
+        case '/fiyatlar': return '#00FF9D';
+        case '/hizmetler': return '#C0C0C0';
+        case '/portfolyo': return '#BC13FE';
+        case '/iletisim': return '#FFB300';
+        default: return '#00f3ff';
+      }
+    };
+    const color = getThemeColor(location.pathname);
+    document.documentElement.style.setProperty('--page-theme-color', color);
+  }, [location.pathname]);
+
   return (
     <>
       <AnimatePresence mode="wait">

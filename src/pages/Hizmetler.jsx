@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import ParticleBackground from '../components/ParticleBackground';
 import Footer from '../components/Footer';
 import SmartImage from '../components/SmartImage';
-import { FaPenNib, FaVideo, FaDesktop, FaRobot, FaCode, FaCashRegister, FaWhatsapp } from 'react-icons/fa';
+import { FaPenNib, FaVideo, FaDesktop, FaRobot, FaCode, FaCashRegister, FaGamepad, FaWhatsapp } from 'react-icons/fa';
 import './Hizmetler.css';
 
 // Marquee Assets - Web Sitesi
@@ -36,6 +36,7 @@ const services = [
   { id: 4, title: 'Yapay Zeka Video Yapımı', desc: 'Son teknoloji AI araçlarıyla sınırları zorlayan, yaratıcı ve fütüristik video içerikleri üretiyoruz.', icon: <FaRobot /> },
   { id: 5, title: 'Web Site Düzenleme', desc: 'Mevcut web sitenizi modern standartlara uyarlıyor, hız ve SEO performansını optimize ediyoruz.', icon: <FaCode /> },
   { id: 6, title: 'Adisyon Sistemi', desc: 'Kafe ve restoranlar için özel geliştirdiğimiz bulut tabanlı modern yönetim altyapısı.', icon: <FaCashRegister />, link: 'https://www.emrcore.com.tr' },
+  { id: 7, title: 'Oyun Yapımı', desc: 'Unity ve Unreal Engine ile hem mobil hem masaüstü platformlar için yüksek performanslı, etkileyici oyunlar geliştiriyoruz.', icon: <FaGamepad /> },
 ];
 
 const MarqueeCard = ({ img, index, prefix }) => {

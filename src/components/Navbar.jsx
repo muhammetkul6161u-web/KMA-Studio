@@ -55,6 +55,38 @@ const Navbar = () => {
     { path: '/iletisim', label: 'İletişim', hoverColor: '#FFB300' },
   ];
 
+  const [isLangOpen, setIsLangOpen] = useState(false);
+  const [selectedLang, setSelectedLang] = useState('TR');
+  const langRef = React.useRef(null);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (langRef.current && !langRef.current.contains(event.target)) {
+        setIsLangOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const languages = [
+    { code: 'tr', label: 'TR' },
+    { code: 'en', label: 'EN' },
+    { code: 'ru', label: 'RU' },
+    { code: 'ja', label: 'JA' },
+  ];
+
+  const handleLangChange = (lang) => {
+    setSelectedLang(lang.label);
+    setIsLangOpen(false);
+    const googleSelect = document.querySelector('.goog-te-combo');
+    if (googleSelect) {
+      googleSelect.value = lang.code;
+      googleSelect.dispatchEvent(new Event('change'));
+    }
+  };
+
   return (
     <>
       <nav 
@@ -176,36 +208,45 @@ const Navbar = () => {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          {/* Language Switcher - Desktop only */}
-          <select 
-            className="notranslate nav-desktop-only"
-            onChange={(e) => {
-              const googleSelect = document.querySelector('.goog-te-combo');
-              if (googleSelect) {
-                googleSelect.value = e.target.value;
-                googleSelect.dispatchEvent(new Event('change'));
-              }
-            }}
-            style={{
-              background: 'transparent', 
-              color: theme.color, 
-              border: `1px solid ${theme.color}`,
-              padding: '8px 12px', 
-              borderRadius: '8px', 
-              outline: 'none', 
-              cursor: 'pointer', 
-              fontWeight: '700',
-              fontSize: '15px',
-              appearance: 'none',
-              WebkitAppearance: 'none',
-              MozAppearance: 'none'
-            }}
-          >
-            <option value="tr" style={{ background: '#111', color: '#fff' }}>TR</option>
-            <option value="en" style={{ background: '#111', color: '#fff' }}>EN</option>
-            <option value="ru" style={{ background: '#111', color: '#fff' }}>RU</option>
-            <option value="ja" style={{ background: '#111', color: '#fff' }}>JA</option>
-          </select>
+          {/* Custom Language Switcher */}
+          <div className="custom-lang-switcher nav-desktop-only" ref={langRef}>
+            <button 
+              className="lang-trigger"
+              onClick={() => setIsLangOpen(!isLangOpen)}
+              style={{ '--theme-color': theme.color }}
+            >
+              {selectedLang}
+              <motion.span
+                animate={{ rotate: isLangOpen ? 180 : 0 }}
+                style={{ display: 'inline-block', marginLeft: '6px', fontSize: '10px' }}
+              >
+                ▼
+              </motion.span>
+            </button>
+
+            <AnimatePresence>
+              {isLangOpen && (
+                <motion.div 
+                  className="lang-dropdown"
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                >
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      className={`lang-option ${selectedLang === lang.label ? 'active' : ''}`}
+                      onClick={() => handleLangChange(lang)}
+                      style={{ '--theme-color': theme.color }}
+                    >
+                      {lang.label}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
           <button 
             className={`theme-btn ${theme.btnClass} nav-desktop-only`}
@@ -271,22 +312,18 @@ const Navbar = () => {
                 className="mobile-menu-footer"
               >
                 {/* Language Selector in Mobile */}
-                <select 
-                  className="notranslate mobile-lang-select"
-                  onChange={(e) => {
-                    const googleSelect = document.querySelector('.goog-te-combo');
-                    if (googleSelect) {
-                      googleSelect.value = e.target.value;
-                      googleSelect.dispatchEvent(new Event('change'));
-                    }
-                  }}
-                  style={{ '--theme-color': theme.color }}
-                >
-                  <option value="tr">TR</option>
-                  <option value="en">EN</option>
-                  <option value="ru">RU</option>
-                  <option value="ja">JA</option>
-                </select>
+                <div className="mobile-lang-grid">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      className={`mobile-lang-btn ${selectedLang === lang.label ? 'active' : ''}`}
+                      onClick={() => handleLangChange(lang)}
+                      style={{ '--theme-color': theme.color }}
+                    >
+                      {lang.label}
+                    </button>
+                  ))}
+                </div>
 
                 <button
                   className="mobile-cta-btn"
