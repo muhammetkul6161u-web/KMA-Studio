@@ -1,7 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import logo from '../assets/logo1.png';
+import { motion, AnimatePresence, useSpring, useMotionValue, useTransform } from 'framer-motion';
+import logo from '../assets/logo1.webp';
+
+const Magnetic = ({ children }) => {
+  const ref = useRef(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const springConfig = { damping: 15, stiffness: 150 };
+  const springX = useSpring(x, springConfig);
+  const springY = useSpring(y, springConfig);
+
+  const handleMouseMove = (e) => {
+    const { clientX, clientY } = e;
+    const { height, width, left, top } = ref.current.getBoundingClientRect();
+    const middleX = clientX - (left + width / 2);
+    const middleY = clientY - (top + height / 2);
+    x.set(middleX * 0.35);
+    y.set(middleY * 0.35);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ x: springX, y: springY }}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -47,12 +82,12 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { path: '/', label: 'Ana Sayfa', hoverColor: '#00f3ff' },
-    { path: '/hakkimizda', label: 'Hakkımızda', hoverColor: '#D4C0A8' },
-    { path: '/fiyatlar', label: 'Fiyatlar', hoverColor: '#00FF9D' },
-    { path: '/hizmetler', label: 'Hizmetler', hoverColor: '#C0C0C0' },
-    { path: '/portfolyo', label: 'Portfolyo', hoverColor: '#BC13FE' },
-    { path: '/iletisim', label: 'İletişim', hoverColor: '#FFB300' },
+    { path: '/', label: 'Ana Sayfa', hoverColor: '#00f3ff', iconType: 'home' },
+    { path: '/hakkimizda', label: 'Hakkımızda', hoverColor: '#D4C0A8', iconType: 'about' },
+    { path: '/fiyatlar', label: 'Fiyatlar', hoverColor: '#00FF9D', iconType: 'pricing' },
+    { path: '/hizmetler', label: 'Hizmetler', hoverColor: '#C0C0C0', iconType: 'services' },
+    { path: '/portfolyo', label: 'Portfolyo', hoverColor: '#BC13FE', iconType: 'portfolio' },
+    { path: '/iletisim', label: 'İletişim', hoverColor: '#FFB300', iconType: 'contact' },
   ];
 
   const [isLangOpen, setIsLangOpen] = useState(false);
@@ -87,6 +122,69 @@ const Navbar = () => {
     }
   };
 
+  const NavIcon = ({ type, color }) => {
+    switch (type) {
+      case 'home':
+        return (
+          <svg viewBox="0 0 100 100" width="100%" height="100%">
+            <circle cx="50" cy="50" r="32" stroke={color} strokeWidth="1.2" fill="none" opacity="0.4" strokeDasharray="6 4"/>
+            <circle cx="50" cy="50" r="20" stroke={color} strokeWidth="1" fill="none" opacity="0.6"/>
+            <circle cx="50" cy="50" r="10" stroke={color} strokeWidth="1.5" fill="none" opacity="0.8"/>
+            <path d="M50,5 L50,95 M5,50 L95,50" stroke={color} strokeWidth="1" opacity="0.3" strokeDasharray="3 3"/>
+            <circle cx="50" cy="50" r="4" fill={color} opacity="0.9"/>
+          </svg>
+        );
+      case 'about':
+        return (
+          <svg viewBox="0 0 100 100" width="100%" height="100%">
+            <rect x="30" y="25" width="40" height="50" rx="6" stroke={color} strokeWidth="1.5" fill="none" opacity="0.5"/>
+            <path d="M40,25 L40,75 M60,25 L60,75" stroke={color} strokeWidth="1" opacity="0.3" strokeDasharray="2 3"/>
+            <path d="M30,40 L70,40 M30,60 L70,60" stroke={color} strokeWidth="1" opacity="0.2"/>
+            <circle cx="50" cy="50" r="12" stroke={color} strokeWidth="1" fill="none" opacity="0.6"/>
+            <path d="M43,50 L57,50 M50,43 L50,57" stroke={color} strokeWidth="1.5" opacity="0.8"/>
+          </svg>
+        );
+      case 'pricing':
+        return (
+          <svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M15,80 L85,80" stroke={color} strokeWidth="1.5" opacity="0.5" strokeLinecap="round"/>
+            <path d="M20,65 L35,45 L50,55 L80,25" stroke={color} strokeWidth="2" fill="none" opacity="0.8" strokeLinecap="round" strokeLinejoin="round"/>
+            <circle cx="35" cy="45" r="3.5" fill={color} opacity="0.9"/>
+            <circle cx="50" cy="55" r="3.5" fill={color} opacity="0.9"/>
+            <circle cx="80" cy="25" r="4.5" fill={color}/>
+          </svg>
+        );
+      case 'services':
+        return (
+          <svg viewBox="0 0 100 100" width="100%" height="100%">
+            <circle cx="50" cy="50" r="35" stroke={color} strokeWidth="2" fill="none" opacity="0.4" strokeDasharray="4 4" />
+            <path d="M35,50 L45,60 L70,35" stroke={color} strokeWidth="3" fill="none" opacity="0.9" strokeLinecap="round" strokeLinejoin="round" />
+            <circle cx="50" cy="50" r="45" stroke={color} strokeWidth="1" fill="none" opacity="0.2" />
+          </svg>
+        );
+      case 'portfolio':
+        return (
+          <svg viewBox="0 0 100 100" width="100%" height="100%">
+            <rect x="20" y="25" width="60" height="50" rx="8" stroke={color} strokeWidth="1.5" fill="none" opacity="0.6"/>
+            <circle cx="50" cy="50" r="14" stroke={color} strokeWidth="1.5" fill="none" opacity="0.8"/>
+            <circle cx="50" cy="50" r="6" stroke={color} strokeWidth="1" fill="none" opacity="0.5"/>
+            <circle cx="72" cy="35" r="3" fill={color} opacity="0.7"/>
+            <path d="M35,25 L35,18 L65,18 L65,25" stroke={color} strokeWidth="1.5" fill="none" opacity="0.5"/>
+          </svg>
+        );
+      case 'contact':
+        return (
+          <svg viewBox="0 0 100 100" width="100%" height="100%">
+            <rect x="30" y="10" width="40" height="80" rx="8" stroke={color} strokeWidth="1.5" fill="none" opacity="0.6"/>
+            <path d="M43,17 L57,17" stroke={color} strokeWidth="2" strokeLinecap="round" opacity="0.8"/>
+            <circle cx="50" cy="80" r="4" stroke={color} strokeWidth="1" fill="none" opacity="0.5"/>
+            <path d="M30,25 L70,25 M30,70 L70,70" stroke={color} strokeWidth="1" opacity="0.2"/>
+          </svg>
+        );
+      default: return null;
+    }
+  };
+
   return (
     <>
       <nav 
@@ -97,132 +195,54 @@ const Navbar = () => {
           width: isScrolled ? '90%' : '95%',
         }}
       >
-        <Link 
-          to="/" 
-          className="logo-kma" 
-          style={{ '--theme-color': theme.color }}
-          onClick={(e) => {
-            if (location.pathname === '/') {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-          }}
-        >
-          <img src={logo} alt="KMA" style={{ height: '70px', objectFit: 'contain' }} />
-        </Link>
+        <Magnetic>
+          <Link 
+            to="/" 
+            className="logo-kma" 
+            style={{ '--theme-color': theme.color }}
+            onClick={(e) => {
+              if (location.pathname === '/') {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
+          >
+            <img src={logo} alt="KMA" style={{ height: '70px', objectFit: 'contain' }} />
+          </Link>
+        </Magnetic>
 
         {/* Desktop Nav Links */}
         <div className="nav-links-container nav-desktop-only">
-          
-          {/* 1. ANA SAYFA */}
-          <div className="nav-item" style={{ '--hover-color': '#00f3ff' }}>
-            <div className="bg-icon icon-home">
-              <svg viewBox="0 0 100 100" width="100%" height="100%">
-                <circle cx="50" cy="50" r="32" stroke="#00f3ff" strokeWidth="1.2" fill="none" opacity="0.4" strokeDasharray="6 4"/>
-                <circle cx="50" cy="50" r="20" stroke="#00f3ff" strokeWidth="1" fill="none" opacity="0.6"/>
-                <circle cx="50" cy="50" r="10" stroke="#00f3ff" strokeWidth="1.5" fill="none" opacity="0.8"/>
-                <path d="M50,5 L50,95 M5,50 L95,50" stroke="#00f3ff" strokeWidth="1" opacity="0.3" strokeDasharray="3 3"/>
-                <circle cx="50" cy="50" r="4" fill="#00f3ff" opacity="0.9"/>
-              </svg>
-            </div>
-            <Link to="/" className="nav-link">Ana Sayfa</Link>
-          </div>
-
-          {/* 2. HAKKIMIZDA */}
-          <div className="nav-item" style={{ '--hover-color': '#D4C0A8' }}>
-            <div className="bg-icon icon-about">
-              <svg viewBox="0 0 100 100" width="100%" height="100%">
-                <rect x="30" y="25" width="40" height="50" rx="6" stroke="#D4C0A8" strokeWidth="1.5" fill="none" opacity="0.5"/>
-                <path d="M40,25 L40,75 M60,25 L60,75" stroke="#D4C0A8" strokeWidth="1" opacity="0.3" strokeDasharray="2 3"/>
-                <path d="M30,40 L70,40 M30,60 L70,60" stroke="#D4C0A8" strokeWidth="1" opacity="0.2"/>
-                <circle cx="50" cy="50" r="12" stroke="#D4C0A8" strokeWidth="1" fill="none" opacity="0.6"/>
-                <path d="M43,50 L57,50 M50,43 L50,57" stroke="#D4C0A8" strokeWidth="1.5" opacity="0.8"/>
-              </svg>
-            </div>
-            <Link to="/hakkimizda" className="nav-link">Hakkımızda</Link>
-          </div>
-
-          {/* 3. FİYATLAR */}
-          <div className="nav-item" style={{ '--hover-color': '#00FF9D' }}>
-            <div className="bg-icon icon-pricing">
-              <svg viewBox="0 0 100 100" width="100%" height="100%">
-                <path d="M15,80 L85,80" stroke="#00FF9D" strokeWidth="1.5" opacity="0.5" strokeLinecap="round"/>
-                <path d="M20,65 L35,45 L50,55 L80,25" stroke="#00FF9D" strokeWidth="2" fill="none" opacity="0.8" strokeLinecap="round" strokeLinejoin="round"/>
-                <circle cx="35" cy="45" r="3.5" fill="#00FF9D" opacity="0.9"/>
-                <circle cx="50" cy="55" r="3.5" fill="#00FF9D" opacity="0.9"/>
-                <circle cx="80" cy="25" r="4.5" fill="#00FF9D"/>
-                <rect x="73" y="25" width="14" height="55" fill="url(#pricingGrad)" opacity="0.15"/>
-                <defs>
-                  <linearGradient id="pricingGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#00FF9D"/>
-                    <stop offset="100%" stopColor="transparent"/>
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
-            <Link to="/fiyatlar" className="nav-link">Fiyatlar</Link>
-          </div>
-
-          {/* HİZMETLER */}
-          <div className="nav-item" style={{ '--hover-color': '#C0C0C0' }}>
-            <div className="bg-icon icon-services">
-              <svg viewBox="0 0 100 100" width="100%" height="100%">
-                <circle cx="50" cy="50" r="35" stroke="#C0C0C0" strokeWidth="2" fill="none" opacity="0.4" strokeDasharray="4 4" />
-                <path d="M35,50 L45,60 L70,35" stroke="#C0C0C0" strokeWidth="3" fill="none" opacity="0.9" strokeLinecap="round" strokeLinejoin="round" />
-                <circle cx="50" cy="50" r="45" stroke="#C0C0C0" strokeWidth="1" fill="none" opacity="0.2" />
-              </svg>
-            </div>
-            <Link to="/hizmetler" className="nav-link">Hizmetler</Link>
-          </div>
-
-          {/* 4. PORTFOLYO */}
-          <div className="nav-item" style={{ '--hover-color': '#BC13FE' }}>
-            <div className="bg-icon icon-portfolio">
-              <svg viewBox="0 0 100 100" width="100%" height="100%">
-                <rect x="20" y="25" width="60" height="50" rx="8" stroke="#BC13FE" strokeWidth="1.5" fill="none" opacity="0.6"/>
-                <circle cx="50" cy="50" r="14" stroke="#BC13FE" strokeWidth="1.5" fill="none" opacity="0.8"/>
-                <circle cx="50" cy="50" r="6" stroke="#BC13FE" strokeWidth="1" fill="none" opacity="0.5"/>
-                <circle cx="72" cy="35" r="3" fill="#BC13FE" opacity="0.7"/>
-                <path d="M35,25 L35,18 L65,18 L65,25" stroke="#BC13FE" strokeWidth="1.5" fill="none" opacity="0.5"/>
-              </svg>
-            </div>
-            <Link to="/portfolyo" className="nav-link">Portfolyo</Link>
-          </div>
-
-          {/* 5. İLETİŞİM */}
-          <div className="nav-item" style={{ '--hover-color': '#FFB300' }}>
-            <div className="bg-icon icon-contact">
-              <svg viewBox="0 0 100 100" width="100%" height="100%">
-                <rect x="30" y="10" width="40" height="80" rx="8" stroke="#FFB300" strokeWidth="1.5" fill="none" opacity="0.6"/>
-                <path d="M43,17 L57,17" stroke="#FFB300" strokeWidth="2" strokeLinecap="round" opacity="0.8"/>
-                <circle cx="50" cy="80" r="4" stroke="#FFB300" strokeWidth="1" fill="none" opacity="0.5"/>
-                <path d="M30,25 L70,25 M30,70 L70,70" stroke="#FFB300" strokeWidth="1" opacity="0.2"/>
-                <rect x="38" y="35" width="24" height="4" rx="2" fill="#FFB300" opacity="0.15"/>
-                <rect x="38" y="45" width="18" height="4" rx="2" fill="#FFB300" opacity="0.1"/>
-                <rect x="38" y="55" width="20" height="4" rx="2" fill="#FFB300" opacity="0.12"/>
-              </svg>
-            </div>
-            <Link to="/iletisim" className="nav-link">İletişim</Link>
-          </div>
-
+          {navLinks.map((link) => (
+            <Magnetic key={link.path}>
+              <div className="nav-item" style={{ '--hover-color': link.hoverColor }}>
+                <div className={`bg-icon icon-${link.iconType}`}>
+                  <NavIcon type={link.iconType} color={link.hoverColor} />
+                </div>
+                <Link to={link.path} className="nav-link">{link.label}</Link>
+              </div>
+            </Magnetic>
+          ))}
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
           {/* Custom Language Switcher */}
           <div className="custom-lang-switcher nav-desktop-only" ref={langRef}>
-            <button 
-              className="lang-trigger"
-              onClick={() => setIsLangOpen(!isLangOpen)}
-              style={{ '--theme-color': theme.color }}
-            >
-              {selectedLang}
-              <motion.span
-                animate={{ rotate: isLangOpen ? 180 : 0 }}
-                style={{ display: 'inline-block', marginLeft: '6px', fontSize: '10px' }}
+            <Magnetic>
+              <button 
+                className="lang-trigger"
+                onClick={() => setIsLangOpen(!isLangOpen)}
+                style={{ '--theme-color': theme.color }}
               >
-                ▼
-              </motion.span>
-            </button>
+                {selectedLang}
+                <motion.span
+                  animate={{ rotate: isLangOpen ? 180 : 0 }}
+                  style={{ display: 'inline-block', marginLeft: '6px', fontSize: '10px' }}
+                >
+                  ▼
+                </motion.span>
+              </button>
+            </Magnetic>
 
             <AnimatePresence>
               {isLangOpen && (
@@ -248,12 +268,14 @@ const Navbar = () => {
             </AnimatePresence>
           </div>
 
-          <button 
-            className={`theme-btn ${theme.btnClass} nav-desktop-only`}
-            onClick={() => navigate('/iletisim')}
-          >
-            Teklif Al
-          </button>
+          <Magnetic>
+            <button 
+              className={`theme-btn ${theme.btnClass} nav-desktop-only`}
+              onClick={() => navigate('/iletisim')}
+            >
+              Teklif Al
+            </button>
+          </Magnetic>
 
           {/* Hamburger Toggle - Mobile only */}
           <button 
@@ -267,7 +289,6 @@ const Navbar = () => {
             <span className={`hamburger-line ${isMobileOpen ? 'open' : ''}`}></span>
           </button>
         </div>
-
       </nav>
 
       {/* Mobile Full-Screen Overlay Menu */}

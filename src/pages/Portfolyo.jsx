@@ -6,7 +6,7 @@ import ParticleBackground from '../components/ParticleBackground';
 import Footer from '../components/Footer';
 import './Portfolyo.css';
 
-// Fallback images in case Supabase images array is empty or fails
+// Fallback images
 import bluury1 from '../assets/bluury1.webp';
 import bluury2 from '../assets/bluury2.webp';
 import emr1 from '../assets/emr1.webp';
@@ -18,7 +18,7 @@ import kaman2 from '../assets/kaman2.webp';
 import topluluk1 from '../assets/topluluk1.webp';
 import topluluk2 from '../assets/topluluk2.webp';
 
-const fallbackProjects = [
+const staticProjects = [
   {
     id: 1,
     title: 'Bluury',
@@ -92,21 +92,15 @@ const ParallaxProject = ({ project, index }) => {
     >
       {/* Image Side - Asymmetric Grid */}
       <motion.div className="portfolio-img-container">
-        {project.link ? (
-          <a href={project.link} target="_blank" rel="noopener noreferrer" className="portfolio-card-link">
-            <div className="portfolio-asymmetric-grid">
-              <div className="portfolio-glow" style={{ background: `radial-gradient(circle, ${project.color || '#00f3ff'}15 0%, transparent 60%)` }}></div>
-              <motion.div style={{ y: imgY1 }} className="portfolio-img portfolio-img-primary"><SmartImage src={project.images?.[0] || fallbackProjects[0].images[0]} alt={`${project.title} 1`} objectFit="contain" hoverEffect="parallax" /></motion.div>
-              <motion.div style={{ y: imgY2 }} className="portfolio-img portfolio-img-secondary"><SmartImage src={project.images?.[1] || fallbackProjects[0].images[1]} alt={`${project.title} 2`} objectFit="contain" hoverEffect="parallax" /></motion.div>
-            </div>
-          </a>
-        ) : (
-          <div className="portfolio-asymmetric-grid">
-            <div className="portfolio-glow" style={{ background: `radial-gradient(circle, ${project.color || '#00f3ff'}15 0%, transparent 60%)` }}></div>
-            <motion.div style={{ y: imgY1 }} className="portfolio-img portfolio-img-primary"><SmartImage src={project.images?.[0] || fallbackProjects[0].images[0]} alt={`${project.title} 1`} objectFit="contain" hoverEffect="parallax" /></motion.div>
-            <motion.div style={{ y: imgY2 }} className="portfolio-img portfolio-img-secondary"><SmartImage src={project.images?.[1] || fallbackProjects[0].images[1]} alt={`${project.title} 2`} objectFit="contain" hoverEffect="parallax" /></motion.div>
-          </div>
-        )}
+        <div className="portfolio-asymmetric-grid">
+          <div className="portfolio-glow" style={{ background: `radial-gradient(circle, ${project.color || '#00f3ff'}15 0%, transparent 60%)` }}></div>
+          <motion.div style={{ y: imgY1 }} className="portfolio-img portfolio-img-primary">
+            <SmartImage src={project.images?.[0]} alt={`${project.title} 1`} objectFit="contain" hoverEffect="zoom" themeColor={project.color} />
+          </motion.div>
+          <motion.div style={{ y: imgY2 }} className="portfolio-img portfolio-img-secondary">
+            <SmartImage src={project.images?.[1]} alt={`${project.title} 2`} objectFit="contain" hoverEffect="zoom" themeColor={project.color} />
+          </motion.div>
+        </div>
       </motion.div>
 
       {/* Info Side */}
@@ -119,7 +113,7 @@ const ParallaxProject = ({ project, index }) => {
           transition={{ duration: 0.6 }}
           style={{ color: project.color }}
         >
-          0{project.id}
+          0{index + 1}
         </motion.span>
         <motion.h2
           className="portfolio-project-title"
@@ -176,8 +170,6 @@ const ParallaxProject = ({ project, index }) => {
 };
 
 const Portfolyo = () => {
-  const [projects] = useState(fallbackProjects);
-
   return (
     <div className="portfolyo-wrapper">
       <SEO 
@@ -185,45 +177,11 @@ const Portfolyo = () => {
         description="Sanat ve kodun kesişimi. KMA'nın web tasarım, yazılım projeleri ve görsel manifestosu." 
         url="/portfolyo" 
       />
-      {/* Particle Background - Lens Variant */}
       <ParticleBackground variant="lens" />
       
-      {/* Geometrik Çizgiler & Lens Flares */}
       <div className="portfolyo-geometric-bg"></div>
       <div className="portfolyo-lens-flare-1"></div>
       <div className="portfolyo-lens-flare-2"></div>
-
-      {/* Camera SVG Backgrounds */}
-      <div className="portfolyo-camera portfolyo-camera-tr">
-        <svg viewBox="0 0 200 200" fill="none">
-          <rect x="30" y="60" width="140" height="100" rx="16" stroke="currentColor" strokeWidth="2"/>
-          <circle cx="100" cy="110" r="30" stroke="currentColor" strokeWidth="2"/>
-          <circle cx="100" cy="110" r="15" stroke="currentColor" strokeWidth="1.5"/>
-          <circle cx="100" cy="110" r="5" fill="currentColor" opacity="0.5"/>
-          <path d="M60,60 L80,35 L120,35 L140,60" stroke="currentColor" strokeWidth="2" fill="none"/>
-          <circle cx="150" cy="75" r="5" stroke="currentColor" strokeWidth="1.5"/>
-        </svg>
-      </div>
-      <div className="portfolyo-camera portfolyo-camera-ml">
-        <svg viewBox="0 0 200 200" fill="none">
-          <rect x="30" y="60" width="140" height="100" rx="16" stroke="currentColor" strokeWidth="2"/>
-          <circle cx="100" cy="110" r="30" stroke="currentColor" strokeWidth="2"/>
-          <circle cx="100" cy="110" r="15" stroke="currentColor" strokeWidth="1.5"/>
-          <circle cx="100" cy="110" r="5" fill="currentColor" opacity="0.5"/>
-          <path d="M60,60 L80,35 L120,35 L140,60" stroke="currentColor" strokeWidth="2" fill="none"/>
-          <circle cx="150" cy="75" r="5" stroke="currentColor" strokeWidth="1.5"/>
-        </svg>
-      </div>
-      <div className="portfolyo-camera portfolyo-camera-br">
-        <svg viewBox="0 0 200 200" fill="none">
-          <rect x="30" y="60" width="140" height="100" rx="16" stroke="currentColor" strokeWidth="2"/>
-          <circle cx="100" cy="110" r="30" stroke="currentColor" strokeWidth="2"/>
-          <circle cx="100" cy="110" r="15" stroke="currentColor" strokeWidth="1.5"/>
-          <circle cx="100" cy="110" r="5" fill="currentColor" opacity="0.5"/>
-          <path d="M60,60 L80,35 L120,35 L140,60" stroke="currentColor" strokeWidth="2" fill="none"/>
-          <circle cx="150" cy="75" r="5" stroke="currentColor" strokeWidth="1.5"/>
-        </svg>
-      </div>
 
       {/* HERO */}
       <section className="portfolyo-hero">
@@ -242,18 +200,11 @@ const Portfolyo = () => {
             Sanat ve kodun kesişimi. Her bir proje, kendi içinde benzersiz bir karakter taşıyor.
           </p>
         </motion.div>
-        <motion.div
-          className="portfolyo-scroll-indicator"
-          animate={{ y: [0, 12, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <span>↓</span>
-        </motion.div>
       </section>
 
-      {/* PROJECTS with PARALLAX */}
-      <section className="portfolyo-projects">
-        {projects.map((project, i) => (
+      {/* PROJECTS */}
+      <section className="portfolyo-projects" aria-label="KMA Studio Projeleri">
+        {staticProjects.map((project, i) => (
           <ParallaxProject key={project.id} project={project} index={i} />
         ))}
       </section>

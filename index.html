@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="theme-color" content="#020204" />
     
-    <link rel="icon" type="image/png" href="/src/assets/favicon.png" />
-    <link rel="apple-touch-icon" href="/src/assets/favicon.png" />
+    <link rel="icon" type="image/webp" href="/src/assets/favicon.webp" />
+    <link rel="apple-touch-icon" href="/src/assets/favicon.webp" />
     
     <!-- Preconnect & DNS Prefetch for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -52,6 +52,77 @@
       }
     </script>
     <script async defer type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <style>
+      /* First-Paint Loader Styles */
+      #initial-loader {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: #020204;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 100000;
+        transition: opacity 0.5s ease, visibility 0.5s;
+        overflow: hidden;
+      }
+      /* Hexa-Theme Preview */
+      .glow-preview {
+        position: absolute; width: 400px; height: 400px; border-radius: 50%; filter: blur(100px); opacity: 0.1;
+      }
+      .gp-tl { top: -100px; left: -100px; background: #00f3ff; }
+      .gp-tr { top: -100px; right: -100px; background: #bc13fe; }
+      .gp-bl { bottom: -100px; left: -100px; background: #D4C0A8; }
+      .gp-br { bottom: -100px; right: -100px; background: #00ff9d; }
+
+      .loader-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        position: relative;
+        z-index: 2;
+      }
+      .loader-circle {
+        width: 44px;
+        height: 44px;
+        border: 2px solid rgba(255, 255, 255, 0.03);
+        border-top: 2px solid #00f3ff;
+        border-right: 2px solid #bc13fe;
+        border-bottom: 2px solid #ffb300;
+        border-left: 2px solid #00ff9d;
+        border-radius: 50%;
+        animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      }
+      .loader-logo {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 900;
+        font-size: 14px;
+        letter-spacing: 6px;
+        color: #fff;
+        text-transform: uppercase;
+        opacity: 0.6;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      body.js-loaded #initial-loader {
+        opacity: 0;
+        visibility: hidden;
+      }
+    </style>
+
+    <div id="initial-loader">
+      <div class="glow-preview gp-tl"></div>
+      <div class="glow-preview gp-tr"></div>
+      <div class="glow-preview gp-bl"></div>
+      <div class="glow-preview gp-br"></div>
+      <div class="loader-content">
+        <div class="loader-circle"></div>
+        <div class="loader-logo">KMA STUDIO</div>
+      </div>
+    </div>
 
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>

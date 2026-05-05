@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 const SEO = ({ title, description, name, type = 'website', image, url, schema }) => {
-  const siteUrl = 'https://kmastudio.com'; // Varsayılan domain, değişebilir
+  const siteUrl = typeof window !== 'undefined' ? window.location.origin : 'https://kmastüdio.com';
   const fullUrl = url ? `${siteUrl}${url}` : siteUrl;
   const imageUrl = image ? `${siteUrl}${image}` : `${siteUrl}/src/assets/logo.webp`; // Fallback logo
 

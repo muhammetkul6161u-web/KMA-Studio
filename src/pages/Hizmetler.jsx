@@ -66,7 +66,7 @@ const MarqueeCard = ({ img, index, prefix }) => {
 
   return (
     <div ref={cardRef} className={`marquee-card ${isFocused ? 'focused' : ''}`}>
-      <img src={img} alt={`${prefix} ${index}`} className="marquee-img" loading="lazy" />
+      <img src={img} alt={`KMA Studio ${prefix} Projesi - Görsel ${index + 1}`} className="marquee-img" loading="lazy" />
       <div className="marquee-overlay"></div>
       
       {/* Nothing Brand Dot-Matrix Data */}
@@ -170,6 +170,7 @@ const Hizmetler = () => {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
             >
+              <div className="hizmet-meta">REF: SRV-0{srv.id}</div>
               <div className="hizmet-icon-wrapper">
                 {srv.icon}
               </div>

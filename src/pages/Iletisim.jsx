@@ -19,6 +19,7 @@ const Iletisim = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // 1. Supabase'e Kaydet (Yedek olarak kalsın)
       const { error } = await supabase
         .from('messages')
         .insert([
@@ -30,7 +31,24 @@ const Iletisim = () => {
           }
         ]);
 
-      if (error) throw error;
+      if (error) console.warn('Supabase insertion failed, but attempting email...', error);
+
+      // 2. E-posta Gönder (FormSubmit.co üzerinden)
+      const response = await fetch("https://formsubmit.co/ajax/muhammetkul6161u@gmail.com", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          _subject: "KMA Studio - Yeni İletişim Formu Mesajı!"
+        })
+      });
+
+      if (!response.ok) throw new Error('Email delivery failed');
 
       setSubmitted(true);
       setFormData({ name: '', email: '', message: '' });

@@ -4,80 +4,84 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* preserve dimensions given by parent via className */
-}
-
-.smart-image-placeholder {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(20, 20, 25, 0.8);
-  backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1;
-  border-radius: inherit;
 }
 
-.smart-image-loader {
-  width: 30px;
-  height: 30px;
-  border: 2px solid rgba(0, 243, 255, 0.1);
-  border-top-color: #00f3ff;
-  border-radius: 50%;
-  animation: smart-spin 1s linear infinite;
-}
-
-@keyframes smart-spin {
-  to { transform: rotate(360deg); }
-}
-
-.smart-image-element {
+.smart-image-content {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  border-radius: inherit;
   will-change: transform, opacity, filter;
-  z-index: 2;
-  position: relative;
+  transition: filter 0.8s ease-out, opacity 0.8s ease-out;
 }
 
-/* Effects */
-.smart-image-wrapper.effect-parallax {
-  transform-style: preserve-3d;
+.image-skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg, 
+    rgba(255,255,255,0.02) 0%, 
+    rgba(255,255,255,0.05) 50%, 
+    rgba(255,255,255,0.02) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-wave 1.5s infinite linear;
+  z-index: 1;
 }
 
-.smart-image-wrapper.effect-parallax .smart-image-element {
-  /* Let it breathe outside constraints during 3D rotation */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+@keyframes skeleton-wave {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
 }
 
-.smart-image-wrapper.effect-glow .smart-image-element {
-  transition: all 0.4s ease;
+/* --- SCANNING OVERLAY --- */
+.image-scan-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: color-mix(in srgb, var(--image-theme-color, #00f3ff) 5%, transparent);
+  pointer-events: none;
 }
 
-.smart-image-wrapper.effect-glow:hover .smart-image-element {
-  transform: scale(1.05);
-}
-
-.smart-image-glow-overlay {
+.scan-line {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at center, transparent 30%, rgba(0, 243, 255, 0.1) 100%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: 3;
-  pointer-events: none;
-  border-radius: inherit;
-  box-shadow: inset 0 0 20px rgba(0, 243, 255, 0.2);
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--image-theme-color, #00f3ff), transparent);
+  box-shadow: 0 0 15px var(--image-theme-color, #00f3ff);
+  animation: scanning 2s linear infinite;
 }
 
-.smart-image-wrapper.effect-glow:hover .smart-image-glow-overlay {
-  opacity: 1;
+@keyframes scanning {
+  0% { top: 0%; }
+  100% { top: 100%; }
+}
+
+.scan-corner {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border: 2px solid var(--image-theme-color, #00f3ff);
+  opacity: 0.6;
+}
+
+.top-left { top: 15px; left: 15px; border-right: none; border-bottom: none; }
+.top-right { top: 15px; right: 15px; border-left: none; border-bottom: none; }
+.bottom-left { bottom: 15px; left: 15px; border-right: none; border-top: none; }
+.bottom-right { bottom: 15px; right: 15px; border-left: none; border-top: none; }
+
+.scan-data {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-family: 'monospace', monospace;
+  font-size: 10px;
+  color: var(--image-theme-color, #00f3ff);
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px color-mix(in srgb, var(--image-theme-color, #00f3ff) 50%, transparent);
 }

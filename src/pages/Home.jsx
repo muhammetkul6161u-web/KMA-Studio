@@ -8,6 +8,7 @@ import ProcessSection from '../components/StatsCounter';
 import { SiReact, SiTailwindcss, SiVite, SiFigma, SiNodedotjs } from 'react-icons/si';
 import { FaCode, FaRocket, FaPaintBrush } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import useReveal from '../hooks/useReveal';
 
 // YENİ GÖRSELLER (2'li setler)
 import emr1 from '../assets/emr1.webp';
@@ -19,33 +20,47 @@ import ParticleBackground from '../components/ParticleBackground';
 
 const Home = () => {
   const [showContent, setShowContent] = useState(false);
+  const [terminalLines, setTerminalLines] = useState([
+    { text: 'system.status', type: 'cmd' },
+    { text: '→ ONLINE — all services running', type: 'dim' }
+  ]);
+  const [monitorStats, setMonitorStats] = useState({ latency: 12, fps: 60 });
   const navigate = useNavigate();
+
+  useReveal();
 
   useEffect(() => {
     const timer = setTimeout(() => setShowContent(true), 500);
     return () => clearTimeout(timer);
   }, []);
 
+  // Terminal & Monitor Simulation
   useEffect(() => {
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: "0px 0px -50px 0px"
-    };
+    const terminalInterval = setInterval(() => {
+      const logs = [
+        'request.incoming from 192.168.1.1',
+        'auth.token validated',
+        'database.query success',
+        'cache.hit rate 94%',
+        'deployment.sync active',
+        'security.firewall nominal'
+      ];
+      const randomLog = logs[Math.floor(Math.random() * logs.length)];
+      setTerminalLines(prev => [...prev.slice(-4), { text: `→ ${randomLog}`, type: 'dim' }]);
+    }, 3000);
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target); 
-        }
+    const monitorInterval = setInterval(() => {
+      setMonitorStats({
+        latency: Math.floor(Math.random() * (18 - 8) + 8),
+        fps: Math.floor(Math.random() * (62 - 58) + 58)
       });
-    }, observerOptions);
+    }, 2000);
 
-    const revealElements = document.querySelectorAll('.reveal-item');
-    revealElements.forEach(el => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, [showContent]); 
+    return () => {
+      clearInterval(terminalInterval);
+      clearInterval(monitorInterval);
+    };
+  }, []);
 
   return (
     <>
@@ -82,12 +97,12 @@ const Home = () => {
                 <span className="panel-title">terminal</span>
               </div>
               <div className="panel-body terminal-body">
-                <p><span className="t-green">$</span> system.status</p>
-                <p className="t-dim">→ <span className="t-cyan">ONLINE</span> — all services running</p>
-                <p><span className="t-green">$</span> security.check</p>
-                <p className="t-dim">→ <span className="t-cyan">SECURE</span> — SSL/TLS verified</p>
-                <p><span className="t-green">$</span> deploy.latest</p>
-                <p className="t-dim">→ v3.2.1 — <span className="t-cyan">SUCCESS</span></p>
+                {terminalLines.map((line, i) => (
+                  <p key={i} className={line.type === 'dim' ? 't-dim' : ''}>
+                    {line.type === 'cmd' && <span className="t-green">$ </span>}
+                    {line.text}
+                  </p>
+                ))}
                 <p className="t-blink"><span className="t-green">$</span> _</p>
               </div>
             </motion.div>
@@ -103,8 +118,8 @@ const Home = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
               >
-                Global Vision.<br />
-                <span className="gradient-text-home">Local Impact.</span>
+                Küresel Vizyon.<br />
+                <span className="gradient-text-home">Yerel Etki.</span>
               </motion.h1>
               <motion.p 
                 className={`reveal-item ${showContent ? 'visible' : ''} hero-description hero-desc-centered`}
@@ -147,11 +162,11 @@ const Home = () => {
               <div className="panel-body monitor-body">
                 <div className="monitor-row">
                   <span className="monitor-label">LATENCY</span>
-                  <span className="monitor-value t-cyan">12ms</span>
+                  <span className="monitor-value t-cyan">{monitorStats.latency}ms</span>
                 </div>
                 <div className="monitor-row">
                   <span className="monitor-label">FPS</span>
-                  <span className="monitor-value t-green">60</span>
+                  <span className="monitor-value t-green">{monitorStats.fps}</span>
                 </div>
                 <div className="monitor-row">
                   <span className="monitor-label">UPTIME</span>

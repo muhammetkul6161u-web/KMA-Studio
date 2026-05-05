@@ -29,11 +29,15 @@ function App() {
 
   // Manage initial load
   React.useEffect(() => {
+    // Remove the initial static loader immediately once React is running
+    document.body.classList.add('js-loaded');
+
     // Show our premium React SplashLoader for a bit, then remove it
+    // Increased to 4200ms (1.2s loading + 3s hold at 100%)
     const timer = setTimeout(() => {
       setInitialLoading(false);
       document.body.classList.add('loaded');
-    }, 2000);
+    }, 4200);
 
     return () => clearTimeout(timer);
   }, []);
@@ -66,27 +70,29 @@ function App() {
       {!initialLoading && (
         <Suspense fallback={<div style={{ height: '100vh', width: '100vw', background: '#020204' }}></div>}>
           <AnimatePresence mode="wait">
-            <Routes location={location} key={location.pathname}>
-              <Route path="/" element={<PageTransition><Home /></PageTransition>} />
-              <Route path="/hakkimizda" element={<PageTransition><Hakkimizda /></PageTransition>} />
-              <Route path="/fiyatlar" element={<PageTransition><Fiyatlar /></PageTransition>} />
-              <Route path="/hizmetler" element={<PageTransition><Hizmetler /></PageTransition>} />
-              <Route path="/portfolyo" element={<PageTransition><Portfolyo /></PageTransition>} />
-              <Route path="/iletisim" element={<PageTransition><Iletisim /></PageTransition>} />
+            <main id="main-content">
+              <Routes location={location} key={location.pathname}>
+                <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+                <Route path="/hakkimizda" element={<PageTransition><Hakkimizda /></PageTransition>} />
+                <Route path="/fiyatlar" element={<PageTransition><Fiyatlar /></PageTransition>} />
+                <Route path="/hizmetler" element={<PageTransition><Hizmetler /></PageTransition>} />
+                <Route path="/portfolyo" element={<PageTransition><Portfolyo /></PageTransition>} />
+                <Route path="/iletisim" element={<PageTransition><Iletisim /></PageTransition>} />
 
-              {/* Admin Routes */}
-              <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/admin" element={
-                <ProtectedRoute>
-                  <AdminLayout />
-                </ProtectedRoute>
-              }>
-                <Route index element={<PortfolioManager />} />
-                <Route path="portfolio" element={<PortfolioManager />} />
-                <Route path="pricing" element={<PricingManager />} />
-                <Route path="inbox" element={<InboxManager />} />
-              </Route>
-            </Routes>
+                {/* Admin Routes */}
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/admin" element={
+                  <ProtectedRoute>
+                    <AdminLayout />
+                  </ProtectedRoute>
+                }>
+                  <Route index element={<PortfolioManager />} />
+                  <Route path="portfolio" element={<PortfolioManager />} />
+                  <Route path="pricing" element={<PricingManager />} />
+                  <Route path="inbox" element={<InboxManager />} />
+                </Route>
+              </Routes>
+            </main>
           </AnimatePresence>
         </Suspense>
       )}
