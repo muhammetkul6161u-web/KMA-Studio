@@ -20,7 +20,7 @@ const Fiyatlar = () => {
       alert("Lütfen telefon numaranızı giriniz.");
       return;
     }
-    const message = `Merhaba KMA, "${selectedPkg.title}" paketi ile ilgileniyorum.\n\nFiyat: ${selectedPkg.price}\nÖzellikler: ${selectedPkg.features.join(', ')}\n\nGeri dönüş numaram: ${phoneNumber}`;
+    const message = `Merhaba Dizvyn, "${selectedPkg.title}" paketi ile ilgileniyorum.\n\nFiyat: ${selectedPkg.price}\nÖzellikler: ${selectedPkg.features.join(', ')}\n\nGeri dönüş numaram: ${phoneNumber}`;
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://wa.me/905359460122?text=${encodedMessage}`, '_blank');
     setSelectedPkg(null);

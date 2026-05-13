@@ -174,7 +174,7 @@ const Portfolyo = () => {
     <div className="portfolyo-wrapper">
       <SEO 
         title="Portfolyo" 
-        description="Sanat ve kodun kesişimi. KMA'nın web tasarım, yazılım projeleri ve görsel manifestosu." 
+        description="Sanat ve kodun kesişimi. Dizvyn'ın web tasarım, yazılım projeleri ve görsel manifestosu." 
         url="/portfolyo" 
       />
       <ParticleBackground variant="lens" />
@@ -203,7 +203,7 @@ const Portfolyo = () => {
       </section>
 
       {/* PROJECTS */}
-      <section className="portfolyo-projects" aria-label="KMA Studio Projeleri">
+      <section className="portfolyo-projects" aria-label="Dizvyn Projeleri">
         {staticProjects.map((project, i) => (
           <ParallaxProject key={project.id} project={project} index={i} />
         ))}

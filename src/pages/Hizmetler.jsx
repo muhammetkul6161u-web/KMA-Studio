@@ -66,7 +66,7 @@ const MarqueeCard = ({ img, index, prefix }) => {
 
   return (
     <div ref={cardRef} className={`marquee-card ${isFocused ? 'focused' : ''}`}>
-      <img src={img} alt={`KMA Studio ${prefix} Projesi - Görsel ${index + 1}`} className="marquee-img" loading="lazy" />
+      <img src={img} alt={`Dizvyn ${prefix} Projesi - Görsel ${index + 1}`} className="marquee-img" loading="lazy" />
       <div className="marquee-overlay"></div>
       
       {/* Nothing Brand Dot-Matrix Data */}
@@ -128,7 +128,7 @@ const Hizmetler = () => {
     <div className="hizmetler-wrapper">
       <SEO 
         title="Hizmetlerimiz" 
-        description="Logo tasarımından yapay zeka videolarına, KMA'nın sunduğu tüm profesyonel dijital hizmetler." 
+        description="Logo tasarımından yapay zeka videolarına, Dizvyn'ın sunduğu tüm profesyonel dijital hizmetler." 
         url="/hizmetler" 
       />
 

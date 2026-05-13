@@ -17,7 +17,7 @@ const Hakkimizda = () => {
     <div className="hakkimizda-wrapper">
       <SEO 
         title="Hakkımızda" 
-        description="Sıfırdan kodlara. Gerçekçi, şeffaf ve tutkulu. KMA Web Stüdyosu'nun hikayesi ve manifestosu." 
+        description="Sıfırdan kodlara. Gerçekçi, şeffaf ve tutkulu. Dizvyn'in hikayesi ve manifestosu." 
         url="/hakkimizda" 
       />
       <style>
@@ -79,7 +79,7 @@ const Hakkimizda = () => {
             transition={{ duration: 1 }} 
             className="hero-image-box"
           >
-            <SmartImage src={aboutHeroImg} alt="KMA" hoverEffect="glow" />
+            <SmartImage src={aboutHeroImg} alt="Dizvyn" hoverEffect="none" />
             <div className="hero-img-gradient"></div>
             <h1 className="hero-title-inside">
               Sıfırdan Kodlara.<br />

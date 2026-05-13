@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import logo from '../assets/logo1.webp';
+import logo from '../assets/logo.webp';
 import './SplashLoader.css';
 
 const SplashLoader = () => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const duration = 1200; // Match App.jsx timeout
+    const duration = 1400; // Match App.jsx timeout (slightly less)
     const interval = 10;
     const step = 100 / (duration / interval);
     
@@ -24,7 +24,7 @@ const SplashLoader = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const brandingText = "KMA STUDIO";
+  const brandingText = "DIZVYN";
 
   return (
     <div className="splash-container">
@@ -78,7 +78,9 @@ const SplashLoader = () => {
           animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         >
-          <img src={logo} alt="KMA Studio Logo" className="logo-image-premium" />
+          <div className="splash-logo-circle">
+            <img src={logo} alt="Dizvyn Logo" className="logo-image-premium" />
+          </div>
           <div className="logo-prism-aura"></div>
         </motion.div>
         

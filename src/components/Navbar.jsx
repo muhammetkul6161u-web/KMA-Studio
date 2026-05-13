@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence, useSpring, useMotionValue, useTransform } from 'framer-motion';
-import logo from '../assets/logo1.webp';
+import { motion, AnimatePresence, useSpring, useMotionValue } from 'framer-motion';
+import logo from '../assets/logo.webp';
 
 const Magnetic = ({ children }) => {
   const ref = useRef(null);
@@ -17,8 +17,8 @@ const Magnetic = ({ children }) => {
     const { height, width, left, top } = ref.current.getBoundingClientRect();
     const middleX = clientX - (left + width / 2);
     const middleY = clientY - (top + height / 2);
-    x.set(middleX * 0.35);
-    y.set(middleY * 0.35);
+    x.set(middleX * 0.3);
+    y.set(middleY * 0.3);
   };
 
   const handleMouseLeave = () => {
@@ -46,24 +46,22 @@ const Navbar = () => {
 
   const getThemeConfig = () => {
     switch(location.pathname) {
-      case '/hakkimizda': return { color: '#D4C0A8', topClass: 'top-about', scrollClass: 'scroll-about', btnClass: 'btn-about' };
-      case '/fiyatlar': return { color: '#00FF9D', topClass: 'top-pricing', scrollClass: 'scroll-pricing', btnClass: 'btn-pricing' };
-      case '/hizmetler': return { color: '#C0C0C0', topClass: 'top-services', scrollClass: 'scroll-services', btnClass: 'btn-services' };
-      case '/portfolyo': return { color: '#BC13FE', topClass: 'top-portfolio', scrollClass: 'scroll-portfolio', btnClass: 'btn-portfolio' };
-      case '/iletisim': return { color: '#FFB300', topClass: 'top-contact', scrollClass: 'scroll-contact', btnClass: 'btn-contact' };
+      case '/hakkimizda': return { color: '#D4C0A8', scrollBg: 'rgba(26, 18, 11, 0.92)', scrollBorder: 'rgba(212, 192, 168, 0.3)' };
+      case '/fiyatlar': return { color: '#00FF9D', scrollBg: 'rgba(5, 12, 8, 0.92)', scrollBorder: 'rgba(0, 255, 157, 0.3)' };
+      case '/hizmetler': return { color: '#1a1a1a', scrollBg: 'rgba(230, 230, 235, 0.92)', scrollBorder: 'rgba(26, 26, 26, 0.15)' };
+      case '/portfolyo': return { color: '#BC13FE', scrollBg: 'rgba(15, 8, 25, 0.92)', scrollBorder: 'rgba(188, 19, 254, 0.3)' };
+      case '/iletisim': return { color: '#FFB300', scrollBg: 'rgba(12, 10, 5, 0.92)', scrollBorder: 'rgba(255, 179, 0, 0.3)' };
       case '/':
-      default: return { color: '#00f3ff', topClass: 'top-home', scrollClass: 'scroll-home', btnClass: 'btn-home' };
+      default: return { color: '#00f3ff', scrollBg: 'rgba(3, 4, 7, 0.92)', scrollBorder: 'rgba(0, 243, 255, 0.3)' };
     }
   };
 
   const theme = getThemeConfig();
 
-  // Close mobile menu on route change
   useEffect(() => {
     setIsMobileOpen(false);
   }, [location.pathname]);
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (isMobileOpen) {
       document.body.style.overflow = 'hidden';
@@ -75,16 +73,19 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 60);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
+  const leftLinks = [
     { path: '/', label: 'Ana Sayfa', hoverColor: '#00f3ff', iconType: 'home' },
     { path: '/hakkimizda', label: 'Hakkımızda', hoverColor: '#D4C0A8', iconType: 'about' },
     { path: '/fiyatlar', label: 'Fiyatlar', hoverColor: '#00FF9D', iconType: 'pricing' },
+  ];
+
+  const rightLinks = [
     { path: '/hizmetler', label: 'Hizmetler', hoverColor: '#C0C0C0', iconType: 'services' },
     { path: '/portfolyo', label: 'Portfolyo', hoverColor: '#BC13FE', iconType: 'portfolio' },
     { path: '/iletisim', label: 'İletişim', hoverColor: '#FFB300', iconType: 'contact' },
@@ -94,7 +95,21 @@ const Navbar = () => {
   const [selectedLang, setSelectedLang] = useState('TR');
   const langRef = React.useRef(null);
 
-  // Close dropdown on click outside
+  // Force hide Google Translate bar on language change
+  useEffect(() => {
+    const hideGoogleBanner = () => {
+      document.querySelectorAll('.skiptranslate, .goog-te-banner-frame, iframe.goog-te-banner-frame').forEach(el => {
+        el.style.display = 'none';
+        el.style.visibility = 'hidden';
+        el.style.height = '0';
+      });
+      document.body.style.top = '0px';
+    };
+    hideGoogleBanner();
+    const timer = setTimeout(hideGoogleBanner, 500);
+    return () => clearTimeout(timer);
+  }, [selectedLang]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (langRef.current && !langRef.current.contains(event.target)) {
@@ -188,110 +203,138 @@ const Navbar = () => {
   return (
     <>
       <nav 
-        className={`ak-navbar ${!isScrolled ? theme.topClass : theme.scrollClass}`} 
-        style={{
+        className={`premium-navbar ${isScrolled ? 'navbar-scrolled' : ''} ${isMobileOpen ? 'navbar-hidden-mobile' : ''}`} 
+        style={{ 
           '--theme-color': theme.color,
-          top: isScrolled ? '15px' : '25px',
-          width: isScrolled ? '90%' : '95%',
+          '--scroll-bg': theme.scrollBg,
+          '--scroll-border': theme.scrollBorder,
         }}
       >
-        <Magnetic>
-          <Link 
-            to="/" 
-            className="logo-kma" 
-            style={{ '--theme-color': theme.color }}
-            onClick={(e) => {
-              if (location.pathname === '/') {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }
-            }}
-          >
-            <img src={logo} alt="KMA" style={{ height: '70px', objectFit: 'contain' }} />
-          </Link>
-        </Magnetic>
-
-        {/* Desktop Nav Links */}
-        <div className="nav-links-container nav-desktop-only">
-          {navLinks.map((link) => (
-            <Magnetic key={link.path}>
-              <div className="nav-item" style={{ '--hover-color': link.hoverColor }}>
-                <div className={`bg-icon icon-${link.iconType}`}>
-                  <NavIcon type={link.iconType} color={link.hoverColor} />
-                </div>
-                <Link to={link.path} className="nav-link">{link.label}</Link>
-              </div>
-            </Magnetic>
-          ))}
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          {/* Custom Language Switcher */}
-          <div className="custom-lang-switcher nav-desktop-only" ref={langRef}>
-            <Magnetic>
-              <button 
-                className="lang-trigger"
-                onClick={() => setIsLangOpen(!isLangOpen)}
-                style={{ '--theme-color': theme.color }}
-              >
-                {selectedLang}
-                <motion.span
-                  animate={{ rotate: isLangOpen ? 180 : 0 }}
-                  style={{ display: 'inline-block', marginLeft: '6px', fontSize: '10px' }}
-                >
-                  ▼
-                </motion.span>
-              </button>
-            </Magnetic>
+        {/* Language Switcher: Stay on absolute left */}
+        <div className="nav-actions-container nav-desktop-only">
+          <div className="custom-lang-switcher" ref={langRef}>
+            <button 
+              className="lang-trigger-v2"
+              onClick={() => setIsLangOpen(!isLangOpen)}
+              style={{ color: theme.color, borderColor: `${theme.color}50` }}
+            >
+              <span className="notranslate" translate="no">{selectedLang}</span>
+              <span className="lang-arrow" style={{ color: theme.color }}>▼</span>
+            </button>
 
             <AnimatePresence>
               {isLangOpen && (
                 <motion.div 
-                  className="lang-dropdown"
-                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="lang-dropdown-v2"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.15 }}
+                  style={{ borderColor: `${theme.color}30` }}
                 >
                   {languages.map((lang) => (
                     <button
                       key={lang.code}
-                      className={`lang-option ${selectedLang === lang.label ? 'active' : ''}`}
+                      className={`lang-opt-v2 ${selectedLang === lang.label ? 'active' : ''}`}
                       onClick={() => handleLangChange(lang)}
-                      style={{ '--theme-color': theme.color }}
+                      style={{ '--active-color': theme.color }}
                     >
-                      {lang.label}
+                      <span className="notranslate" translate="no">{lang.label}</span>
                     </button>
                   ))}
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
+        </div>
 
-          <Magnetic>
-            <button 
-              className={`theme-btn ${theme.btnClass} nav-desktop-only`}
-              onClick={() => navigate('/iletisim')}
+        <div className="navbar-content-wrapper">
+          {/* Left Links */}
+          <div className="nav-links-left nav-desktop-only">
+            {leftLinks.map((link) => (
+              <Magnetic key={link.path}>
+                <div className="nav-item" style={{ '--hover-color': link.hoverColor }}>
+                  <div className={`bg-icon icon-${link.iconType}`}>
+                    <NavIcon type={link.iconType} color={link.hoverColor} />
+                  </div>
+                  <Link 
+                    to={link.path} 
+                    className={`nav-link ${location.pathname === link.path ? 'nav-link-active' : ''}`}
+                    style={{ color: theme.color }}
+                  >
+                    {link.label}
+                  </Link>
+                </div>
+              </Magnetic>
+            ))}
+          </div>
+
+          {/* Center Logo Circle */}
+          <div className="nav-center-logo">
+            <Link 
+              to="/" 
+              className="logo-circle-container"
+              onClick={(e) => {
+                if (location.pathname === '/') {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              }}
             >
-              Teklif Al
-            </button>
-          </Magnetic>
+              <div className="logo-circle-inner" style={{ borderColor: theme.color, boxShadow: `0 0 25px ${theme.color}40` }}>
+                <img src={logo} alt="Dizvyn" className="logo-img" />
+              </div>
+            </Link>
+          </div>
 
-          {/* Hamburger Toggle - Mobile only */}
+          {/* Right Links */}
+          <div className="nav-links-right nav-desktop-only">
+            {rightLinks.map((link) => (
+              <Magnetic key={link.path}>
+                <div className="nav-item" style={{ '--hover-color': link.hoverColor }}>
+                  <div className={`bg-icon icon-${link.iconType}`}>
+                    <NavIcon type={link.iconType} color={link.hoverColor} />
+                  </div>
+                  <Link 
+                    to={link.path} 
+                    className={`nav-link ${location.pathname === link.path ? 'nav-link-active' : ''}`}
+                    style={{ color: theme.color }}
+                  >
+                    {link.label}
+                  </Link>
+                </div>
+              </Magnetic>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA Button: Move to absolute right */}
+        <div className="nav-cta-container nav-desktop-only">
           <button 
-            className="hamburger-btn"
-            onClick={() => setIsMobileOpen(!isMobileOpen)}
-            aria-label="Menü aç/kapat"
-            style={{ '--theme-color': theme.color }}
+            className="cta-pill"
+            onClick={() => navigate('/iletisim')}
+            style={{ 
+              background: theme.color, 
+              color: '#000',
+              boxShadow: `0 4px 20px ${theme.color}40`
+            }}
           >
-            <span className={`hamburger-line ${isMobileOpen ? 'open' : ''}`}></span>
-            <span className={`hamburger-line ${isMobileOpen ? 'open' : ''}`}></span>
-            <span className={`hamburger-line ${isMobileOpen ? 'open' : ''}`}></span>
+            <span className="notranslate" translate="no">Teklif Al</span>
           </button>
         </div>
+
+        <button 
+          className="hamburger-btn mobile-only"
+          onClick={() => setIsMobileOpen(!isMobileOpen)}
+          aria-label="Menü"
+        >
+          <span className={`hamburger-line ${isMobileOpen ? 'open' : ''}`} style={{ background: theme.color }}></span>
+          <span className={`hamburger-line ${isMobileOpen ? 'open' : ''}`} style={{ background: theme.color }}></span>
+          <span className={`hamburger-line ${isMobileOpen ? 'open' : ''}`} style={{ background: theme.color }}></span>
+        </button>
       </nav>
 
-      {/* Mobile Full-Screen Overlay Menu */}
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileOpen && (
           <motion.div
@@ -299,41 +342,47 @@ const Navbar = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.35 }}
+            transition={{ duration: 0.3 }}
             style={{ '--theme-color': theme.color }}
           >
+            <div className="mobile-menu-header">
+              <div className="mobile-menu-logo">
+                <img src={logo} alt="Dizvyn" />
+              </div>
+              <button 
+                className="mobile-menu-close" 
+                onClick={() => setIsMobileOpen(false)}
+                aria-label="Kapat"
+              >
+                <div className="close-icon-wrap">
+                  <span style={{ background: theme.color }}></span>
+                  <span style={{ background: theme.color }}></span>
+                </div>
+              </button>
+            </div>
             <div className="mobile-menu-content">
-              {navLinks.map((link, i) => (
+              {[...leftLinks, ...rightLinks].map((link, i) => (
                 <motion.div
                   key={link.path}
-                  initial={{ opacity: 0, x: -40 }}
+                  initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 40 }}
-                  transition={{ duration: 0.4, delay: 0.08 * i, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <Link
                     to={link.path}
-                    className={`mobile-menu-link ${location.pathname === link.path ? 'active' : ''}`}
+                    className={`mobile-menu-link ${location.pathname === link.path ? 'mobile-link-active' : ''}`}
                     style={{ '--link-color': link.hoverColor }}
                     onClick={() => setIsMobileOpen(false)}
                   >
-                    <span className="mobile-link-number">0{i + 1}</span>
-                    <span className="mobile-link-text">{link.label}</span>
-                    {location.pathname === link.path && (
-                      <span className="mobile-link-active-dot" style={{ background: link.hoverColor }}></span>
-                    )}
+                    <div className="mobile-menu-icon">
+                      <NavIcon type={link.iconType} color={link.hoverColor} />
+                    </div>
+                    <span>{link.label}</span>
                   </Link>
                 </motion.div>
               ))}
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                className="mobile-menu-footer"
-              >
-                {/* Language Selector in Mobile */}
-                <div className="mobile-lang-grid">
+              <div className="mobile-menu-footer">
+                <div className="mobile-lang-row">
                   {languages.map((lang) => (
                     <button
                       key={lang.code}
@@ -341,22 +390,21 @@ const Navbar = () => {
                       onClick={() => handleLangChange(lang)}
                       style={{ '--theme-color': theme.color }}
                     >
-                      {lang.label}
+                      <span className="notranslate" translate="no">{lang.label}</span>
                     </button>
                   ))}
                 </div>
-
                 <button
-                  className="mobile-cta-btn"
-                  style={{ '--theme-color': theme.color }}
+                  className="mobile-cta-btn-huge"
                   onClick={() => {
                     navigate('/iletisim');
                     setIsMobileOpen(false);
                   }}
+                  style={{ background: theme.color }}
                 >
-                  Teklif Al
+                  <span className="notranslate" translate="no">Teklif Al</span>
                 </button>
-              </motion.div>
+              </div>
             </div>
           </motion.div>
         )}

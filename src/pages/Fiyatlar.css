@@ -397,11 +397,78 @@
   font-size: 1.3rem;
 }
 
-@media (max-width: 768px) {
+/* RESPONSIVE */
+@media (max-width: 968px) {
   .fiyatlar-hero {
     min-height: 40vh;
+    padding: 0 5% 40px;
+    padding-top: 140px !important;
   }
   .fiyatlar-title {
     font-size: 2.8rem;
   }
+  .fiyatlar-subtitle {
+    font-size: 1rem;
+  }
+  .pricing-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .fiyatlar-content {
+    padding: 30px 4% 80px;
+  }
+  .currency-symbols {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .fiyatlar-hero {
+    min-height: 35vh;
+    padding-top: 100px !important;
+  }
+  .fiyatlar-title {
+    font-size: 2.2rem;
+    letter-spacing: -1px;
+  }
+  .fiyatlar-subtitle {
+    font-size: 0.9rem;
+  }
+  .fiyatlar-label {
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+  }
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .pricing-card {
+    padding: 30px 20px;
+    border-radius: 20px;
+  }
+  .pkg-title { font-size: 1.5rem; }
+  .pkg-price { font-size: 1.8rem; }
+  .pkg-desc { font-size: 0.95rem; min-height: auto; }
+  .pkg-features li { font-size: 1rem; margin-bottom: 15px; }
+  .pkg-select-btn { padding: 14px; font-size: 1rem; }
+  .pricing-footer { margin-top: 40px; }
+  .pricing-warning { font-size: 0.9rem; }
+  .whatsapp-btn {
+    padding: 14px 28px;
+    font-size: 0.9rem;
+    width: 100%;
+    justify-content: center;
+  }
+  .pkg-modal-content {
+    padding: 30px 20px;
+  }
+  .pkg-modal-title { font-size: 1.4rem; }
+  .fiyatlar-bg-chart { display: none; }
+}
+
+@media (max-width: 480px) {
+  .fiyatlar-title { font-size: 1.8rem; }
+  .pricing-card { padding: 25px 15px; }
+  .pkg-price { font-size: 1.6rem; }
+  .fiyatlar-content { padding: 20px 4% 60px; }
 }

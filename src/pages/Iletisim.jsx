@@ -44,7 +44,7 @@ const Iletisim = () => {
           name: formData.name,
           email: formData.email,
           message: formData.message,
-          _subject: "KMA Studio - Yeni İletişim Formu Mesajı!"
+          _subject: "Dizvyn - Yeni İletişim Formu Mesajı!"
         })
       });
 
@@ -63,7 +63,7 @@ const Iletisim = () => {
     <div className="iletisim-wrapper">
       <SEO 
         title="İletişim" 
-        description="Projenizi hayata geçirmek için ilk adımı atın. KMA Web Stüdyosu ile iletişime geçin." 
+        description="Projenizi hayata geçirmek için ilk adımı atın. Dizvyn ile iletişime geçin." 
         url="/iletisim" 
       />
       {/* Ambient */}

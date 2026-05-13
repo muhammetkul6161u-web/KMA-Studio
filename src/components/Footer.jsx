@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { FaInstagram, FaLinkedinIn, FaGithub, FaEnvelope, FaMapMarkerAlt, FaPhoneAlt, FaTimes } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
+import logo from '../assets/logo.webp';
 
 const KVKKModal = ({ isOpen, onClose }) => {
   if (typeof document === 'undefined') return null;
@@ -44,7 +45,7 @@ const KVKKModal = ({ isOpen, onClose }) => {
             </button>
             <h2 style={{ color: '#fff', marginBottom: '20px', borderBottom: '1px solid #333', paddingBottom: '10px' }}>KVKK Aydınlatma Metni</h2>
             <div style={{ lineHeight: '1.7', fontSize: '0.95rem', color: '#bbb' }}>
-              <p>Kişisel verileriniz, KMA tarafından 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") kapsamında veri sorumlusu sıfatıyla işlenmektedir.</p>
+              <p>Kişisel verileriniz, Dizvyn tarafından 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") kapsamında veri sorumlusu sıfatıyla işlenmektedir.</p>
               <br/>
               <p><strong>1. Kişisel Verilerin İşlenme Amacı:</strong><br/>Toplanan kişisel verileriniz, size sunduğumuz hizmetlerin kalitesini artırmak, projelerinizi yönetmek, iletişim kurmak ve yasal yükümlülüklerimizi yerine getirmek amacıyla işlenmektedir.</p>
               <br/>
@@ -98,7 +99,7 @@ const Footer = ({ variant = 'cyber' }) => {
         <div className="footer-container footer-compact">
           <div className="footer-brand">
             <h2 className="footer-logo">
-              <span className="footer-logo-kma" style={{ background: `linear-gradient(90deg, #ffffff, ${themeColor})` }}>KMA</span>
+              <img src={logo} alt="Dizvyn" style={{ height: '60px', width: '60px', objectFit: 'cover', borderRadius: '50%', background: '#000', padding: '0', border: '2px solid rgba(0, 243, 255, 0.3)', boxShadow: '0 0 15px rgba(0, 243, 255, 0.15)' }} />
             </h2>
             <p className="footer-description">
               Sınırları aşan butik web teknolojileri stüdyosu. Minimalizm ile markanızın geleceğini inşa ediyoruz.
@@ -143,7 +144,7 @@ const Footer = ({ variant = 'cyber' }) => {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} KMA. Tüm hakları saklıdır.</p>
+          <p>&copy; {new Date().getFullYear()} Dizvyn. Tüm hakları saklıdır.</p>
           <p 
             className="footer-kvkk" 
             onClick={() => setIsKVKKOpen(true)}

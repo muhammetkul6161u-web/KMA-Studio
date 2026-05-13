@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const LiveFeed = () => {
   const [logs, setLogs] = useState([
-    "[SYSTEM]: KMA-Core initialization complete.",
+    "[SYSTEM]: Dizvyn-Core initialization complete.",
     "[DATA]: Scanning local nodes...",
     "[STATUS]: Firewalls active."
   ]);
@@ -10,7 +10,7 @@ const LiveFeed = () => {
   const messages = [
     "[SYSTEM]: Connection established.",
     "[RENDER]: New UI component optimized.",
-    "[KMA]: Ready for next project.",
+    "[NOVA]: Ready for next project.",
     "[DEBUG]: Latency 0.02ms detected.",
     "[SECURITY]: AES-256 encryption active."
   ];

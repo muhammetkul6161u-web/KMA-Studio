@@ -12,22 +12,59 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="dns-prefetch" href="https://translate.google.com" />
+
+    <!-- Preload Critical Assets -->
+    <link rel="preload" href="/src/assets/logo.webp" as="image" type="image/webp" />
     
     <!-- Google Fonts with display=swap for FCP optimization -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
     
     <!-- Fallback Base SEO Meta Tags (Overridden by Helmet later) -->
-    <meta name="description" content="KMA — Sınırları aşan butik web teknolojileri stüdyosu. Modern, minimal ve performans odaklı dijital çözümler." />
-    <meta name="keywords" content="web tasarım, yazılım, KMA, butik web stüdyosu, UI/UX tasarım, özel web geliştirme, e-ticaret, SEO uyumlu web sitesi" />
+    <meta name="description" content="Dizvyn — Sınırları aşan butik dijital ajans. Modern, minimal ve performans odaklı dijital çözümler." />
+    <meta name="keywords" content="web tasarım, yazılım, Dizvyn, butik dijital ajans, UI/UX tasarım, özel web geliştirme, e-ticaret, SEO uyumlu web sitesi" />
     <meta name="author" content="Muhammet Ali Kul" />
     <meta name="robots" content="index, follow" />
     
-    <title>KMA — Premium Web Studio</title>
+    <title>Dizvyn — Premium Dijital Ajans</title>
 
     <style>
-      /* Hide default Google Translate widget */
-      .skiptranslate, #google_translate_element { display: none !important; }
-      body { top: 0px !important; }
+      /* ===== AGGRESSIVE GOOGLE TRANSLATE WIDGET HIDING ===== */
+      .skiptranslate,
+      #google_translate_element,
+      .goog-te-banner-frame,
+      .goog-te-menu-frame,
+      #goog-gt-tt,
+      .goog-te-balloon-frame,
+      .goog-tooltip,
+      .goog-tooltip:hover,
+      .goog-text-highlight,
+      .goog-te-gadget,
+      .goog-te-gadget-icon,
+      .VIpgJd-ZVi9od-ORHb-OEVmcd,
+      .VIpgJd-ZVi9od-ORHb,
+      .VIpgJd-ZVi9od-SmPBcf,
+      .VIpgJd-ZVi9od-xl07Ob-OEVmcd,
+      .VIpgJd-ZVi9od-vH1Gmf,
+      .VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
+      div[id^="goog-"],
+      iframe.goog-te-banner-frame,
+      iframe[name="google_conversion_frame"],
+      iframe[src*="translate.googleapis.com"] {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        width: 0 !important;
+        overflow: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        position: absolute !important;
+        top: -9999px !important;
+        left: -9999px !important;
+      }
+      /* Force body position — Google Translate adds top offset */
+      body { top: 0px !important; position: relative !important; }
+      html.translated-ltr body, html.translated-rtl body { top: 0 !important; }
+      html.translated-ltr, html.translated-rtl { overflow: visible !important; }
       
       /* Global base styles for faster FCP before CSS loads */
       body {
@@ -52,6 +89,56 @@
       }
     </script>
     <script async defer type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    
+    <!-- Aggressively hide Google Translate visual elements via MutationObserver -->
+    <script>
+      (function() {
+        function hideGoogleTranslateElements() {
+          // Hide all skiptranslate elements
+          document.querySelectorAll('.skiptranslate, .goog-te-banner-frame, iframe.goog-te-banner-frame').forEach(function(el) {
+            el.style.display = 'none';
+            el.style.visibility = 'hidden';
+            el.style.height = '0';
+            el.style.overflow = 'hidden';
+          });
+          // Force body top to 0
+          document.body.style.top = '0px';
+          document.body.style.position = 'relative';
+        }
+
+        // Run immediately and on various events
+        if (document.readyState !== 'loading') {
+          hideGoogleTranslateElements();
+        }
+        document.addEventListener('DOMContentLoaded', hideGoogleTranslateElements);
+        window.addEventListener('load', hideGoogleTranslateElements);
+
+        // MutationObserver to catch any dynamically injected elements
+        var observer = new MutationObserver(function(mutations) {
+          var needsHide = false;
+          mutations.forEach(function(m) {
+            m.addedNodes.forEach(function(node) {
+              if (node.nodeType === 1) {
+                if (node.classList && (node.classList.contains('skiptranslate') || node.classList.contains('goog-te-banner-frame'))) {
+                  needsHide = true;
+                }
+                if (node.tagName === 'IFRAME' && (node.className || '').indexOf('goog-te') !== -1) {
+                  needsHide = true;
+                }
+              }
+            });
+          });
+          if (needsHide) {
+            hideGoogleTranslateElements();
+          }
+          // Always enforce body.top = 0
+          if (document.body.style.top && document.body.style.top !== '0px') {
+            document.body.style.top = '0px';
+          }
+        });
+        observer.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
+      })();
+    </script>
 
     <style>
       /* First-Paint Loader Styles */
@@ -120,7 +207,7 @@
       <div class="glow-preview gp-br"></div>
       <div class="loader-content">
         <div class="loader-circle"></div>
-        <div class="loader-logo">KMA STUDIO</div>
+        <div class="loader-logo">DIZVYN</div>
       </div>
     </div>
 

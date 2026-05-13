@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = localStorage.getItem('kma_admin_auth') === 'true';
+  const isAuthenticated = localStorage.getItem('dizvyn_admin_auth') === 'true';
 
   if (!isAuthenticated) {
     return <Navigate to="/admin/login" replace />;

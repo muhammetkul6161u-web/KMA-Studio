@@ -193,18 +193,20 @@
 }
 
 .portfolio-img-primary {
-  width: 110%; /* Restored to original overflow width */
+  width: 120%; /* Büyütüldü */
   height: auto;
-  left: -15%;
+  left: -18%;
   z-index: 5;
+  filter: contrast(1.08) brightness(1.02); /* Netleştirme */
 }
 
 .portfolio-img-secondary {
-  width: 95%; /* Restored to original overflow width */
+  width: 105%; /* Büyütüldü */
   height: auto;
-  right: -15%;
-  bottom: -5%;
+  right: -18%;
+  bottom: -8%;
   z-index: 4;
+  filter: contrast(1.05) brightness(1.02); /* Netleştirme */
 }
 
 .portfolio-card-link:hover .portfolio-img-primary,
@@ -356,45 +358,101 @@
 
 /* RESPONSIVE */
 @media (max-width: 968px) {
+  .portfolyo-hero {
+    min-height: 70vh;
+    padding: 0 5%;
+    padding-top: 100px;
+  }
+  .portfolyo-title {
+    font-size: 3.5rem;
+  }
   .portfolio-project,
   .portfolio-project.reversed {
     flex-direction: column;
-    gap: 60px;
-    padding-bottom: 40px;
+    gap: 40px;
+    padding-bottom: 30px;
   }
 
   .portfolio-asymmetric-grid {
-    height: 450px;
-    margin-bottom: 20px;
+    height: auto;
+    min-height: 400px;
+    margin-bottom: 30px;
   }
 
   .portfolio-img-primary {
-    width: 90%;
+    width: 95%;
     left: 0;
+    position: relative;
   }
 
   .portfolio-img-secondary {
-    width: 80%;
+    width: 85%;
     right: 0;
-    bottom: 5%;
+    bottom: -20px;
+    z-index: 5;
   }
 
   .portfolio-project-title {
-    font-size: 2.8rem;
+    font-size: 2.5rem;
+  }
+  .portfolio-project-subtitle {
+    font-size: 1.2rem;
+  }
+  .portfolio-project-desc {
+    font-size: 1.1rem;
+  }
+  .portfolio-project-num {
+    font-size: 3rem;
   }
 
   .portfolyo-projects {
-    gap: 120px;
+    gap: 80px;
+    padding: 40px 5%;
+  }
+  .portfolyo-cta {
+    padding: 60px 5% 40px;
+  }
+  .portfolyo-cta-title {
+    font-size: 2.5rem;
   }
 }
 
 @media (max-width: 640px) {
+  .portfolyo-hero {
+    min-height: 60vh;
+    padding-top: 90px;
+  }
   .portfolyo-title {
-    font-size: 3rem;
+    font-size: 2.5rem;
+    letter-spacing: -2px;
   }
-  .portfolio-mockup-wrapper {
-    height: 250px;
+  .portfolyo-subtitle {
+    font-size: 1rem;
   }
+  .portfolyo-label {
+    font-size: 0.75rem;
+  }
+  .portfolio-asymmetric-grid {
+    min-height: 300px;
+  }
+  .portfolio-img-primary { width: 100%; }
+  .portfolio-img-secondary { width: 90%; bottom: -10px; }
+  .portfolio-project-title { font-size: 2rem; }
+  .portfolio-project-subtitle { font-size: 1rem; }
+  .portfolio-project-desc { font-size: 0.95rem; margin-bottom: 20px; }
+  .portfolio-project-num { font-size: 2.5rem; }
+  .portfolio-tech-tag { font-size: 0.7rem; padding: 5px 12px; }
+  .portfolyo-projects { gap: 60px; }
+  .portfolyo-cta-title { font-size: 2rem; letter-spacing: -1px; }
+  .portfolyo-cta-btn { padding: 16px 35px; font-size: 0.9rem; }
+}
+
+@media (max-width: 480px) {
+  .portfolyo-title { font-size: 2rem; }
+  .portfolio-asymmetric-grid { min-height: 250px; }
+  .portfolio-project-title { font-size: 1.7rem; }
+  .portfolyo-cta-title { font-size: 1.7rem; }
+  .portfolyo-projects { padding: 30px 4%; }
 }
 
 /* CAMERA SVG BACKGROUNDS */

@@ -9,7 +9,7 @@ const AdminLayout = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('kma_admin_auth');
+    localStorage.removeItem('dizvyn_admin_auth');
     navigate('/admin/login');
   };
 
@@ -40,7 +40,7 @@ const AdminLayout = () => {
               <FaRocket className="text-[#00FF9D] group-hover:text-black transition-all" />
             </motion.div>
             <div>
-              <h1 className="text-xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white to-[#00FF9D]">KMA</h1>
+              <h1 className="text-xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white to-[#00FF9D]">DZVN</h1>
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#00FF9D] animate-pulse"></span>
                 <p className="text-[10px] text-[#00FF9D] tracking-[0.2em] font-mono">CORE_TERMINAL</p>

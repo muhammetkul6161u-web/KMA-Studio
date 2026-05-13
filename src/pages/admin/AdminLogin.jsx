@@ -11,7 +11,7 @@ const AdminLogin = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     if (username === 'admin' && password === 'kma2026') {
-      localStorage.setItem('kma_admin_auth', 'true');
+      localStorage.setItem('dizvyn_admin_auth', 'true');
       navigate('/admin/portfolio');
     } else {
       alert('Geçersiz kimlik bilgileri.');
@@ -32,7 +32,7 @@ const AdminLogin = () => {
           <div className="w-16 h-16 rounded-full bg-[#00FF9D]/10 flex items-center justify-center mb-4 border border-[#00FF9D]/30 shadow-[0_0_20px_rgba(0,255,157,0.2)]">
             <FaUserSecret className="text-3xl text-[#00FF9D]" />
           </div>
-          <h2 className="text-3xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white to-[#00FF9D]">KMA ADMIN</h2>
+          <h2 className="text-3xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white to-[#00FF9D]">DIZVYN ADMIN</h2>
           <p className="text-gray-400 text-sm tracking-widest mt-2">SECURE TERMINAL</p>
         </div>
 

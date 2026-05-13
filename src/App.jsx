@@ -37,7 +37,7 @@ function App() {
     const timer = setTimeout(() => {
       setInitialLoading(false);
       document.body.classList.add('loaded');
-    }, 4200);
+    }, 3500);
 
     return () => clearTimeout(timer);
   }, []);
@@ -48,7 +48,7 @@ function App() {
       switch(path) {
         case '/hakkimizda': return '#D4C0A8';
         case '/fiyatlar': return '#00FF9D';
-        case '/hizmetler': return '#C0C0C0';
+        case '/hizmetler': return '#1a1a1a';
         case '/portfolyo': return '#BC13FE';
         case '/iletisim': return '#FFB300';
         default: return '#00f3ff';
