@@ -2,8 +2,14 @@
 <html lang="tr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#020204" />
+
+    <!-- Güvenlik Başlıkları (Security Headers) -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()" />
     
     <link rel="icon" type="image/webp" href="/src/assets/favicon.webp" />
     <link rel="apple-touch-icon" href="/src/assets/favicon.webp" />
@@ -24,6 +30,14 @@
     <meta name="keywords" content="web tasarım, yazılım, Dizvyn, butik dijital ajans, UI/UX tasarım, özel web geliştirme, e-ticaret, SEO uyumlu web sitesi" />
     <meta name="author" content="Muhammet Ali Kul" />
     <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph & Twitter Fallback (SEO) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Dizvyn — Premium Dijital Ajans" />
+    <meta property="og:description" content="Dizvyn — Sınırları aşan butik dijital ajans. Modern, minimal ve performans odaklı dijital çözümler." />
+    <meta property="og:image" content="https://dizvyn.com/src/assets/logo.webp" />
+    <meta property="og:url" content="https://dizvyn.com" />
+    <meta name="twitter:card" content="summary_large_image" />
     
     <title>Dizvyn — Premium Dijital Ajans</title>
 

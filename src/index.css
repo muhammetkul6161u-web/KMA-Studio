@@ -25,6 +25,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #030407; 
+  touch-action: manipulation; /* Removes 300ms tap delay on mobile */
+  padding-bottom: env(safe-area-inset-bottom); /* Support for mobile notches */
 }
 
 a { text-decoration: none; color: inherit; }
