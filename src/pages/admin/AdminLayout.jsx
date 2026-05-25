@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { FaLaptopCode, FaTags, FaInbox, FaSignOutAlt, FaRocket, FaShieldAlt } from 'react-icons/fa';
+import { FaLaptopCode, FaTags, FaInbox, FaSignOutAlt, FaRocket, FaShieldAlt, FaBars, FaTimes } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import ParticleBackground from '../../components/ParticleBackground';
 
 const AdminLayout = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -29,10 +30,25 @@ const AdminLayout = () => {
         backgroundSize: '30px 30px'
       }}></div>
 
+      {/* Mobile Toggle Overlay */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsSidebarOpen(false)}
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
+          />
+        )}
+      </AnimatePresence>
+
       {/* SIDEBAR */}
-      <aside className="relative z-10 w-72 h-full bg-black/60 backdrop-blur-2xl border-r border-white/5 flex flex-col shadow-[10px_0_40px_rgba(0,0,0,0.8)]">
-        <div className="p-8 border-b border-white/5">
-          <Link to="/" className="flex items-center gap-3 group">
+      <aside className={`fixed inset-y-0 left-0 z-50 w-72 h-full bg-black/85 backdrop-blur-2xl border-r border-white/5 flex flex-col shadow-[10px_0_40px_rgba(0,0,0,0.8)] transition-transform duration-300 md:relative md:translate-x-0 md:bg-black/60 ${
+        isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+      }`}>
+        <div className="p-8 border-b border-white/5 flex justify-between items-center">
+          <Link to="/" className="flex items-center gap-3 group" onClick={() => setIsSidebarOpen(false)}>
             <motion.div 
               className="w-10 h-10 rounded-lg bg-[#00FF9D]/10 flex items-center justify-center border border-[#00FF9D]/30 shadow-[0_0_15px_rgba(0,255,157,0.2)] group-hover:bg-[#00FF9D] transition-all"
               whileHover={{ scale: 1.05, rotate: 5 }}
@@ -47,6 +63,13 @@ const AdminLayout = () => {
               </div>
             </div>
           </Link>
+          <button 
+            className="md:hidden p-2 text-gray-400 hover:text-white"
+            onClick={() => setIsSidebarOpen(false)}
+            aria-label="Kapat"
+          >
+            <FaTimes className="text-lg" />
+          </button>
         </div>
 
         <nav className="flex-1 py-10 px-4 flex flex-col gap-3">
@@ -56,6 +79,7 @@ const AdminLayout = () => {
               <Link
                 key={item.path}
                 to={item.path}
+                onClick={() => setIsSidebarOpen(false)}
                 className={`group relative flex items-center gap-4 px-5 py-4 rounded-xl transition-all duration-300 ${
                   isActive 
                     ? 'bg-[#00FF9D]/10 text-[#00FF9D] border border-[#00FF9D]/20 shadow-[inset_0_0_20px_rgba(0,255,157,0.05)]' 
@@ -92,7 +116,22 @@ const AdminLayout = () => {
 
       {/* MAIN CONTENT */}
       <main className="relative z-10 flex-1 h-full overflow-y-auto custom-scrollbar">
-        <div className="p-10 max-w-7xl mx-auto">
+        {/* Mobile Header Bar */}
+        <div className="md:hidden flex items-center justify-between p-5 bg-black/40 border-b border-white/5 backdrop-blur-md sticky top-0 z-30">
+          <button 
+            onClick={() => setIsSidebarOpen(true)}
+            className="p-2 text-gray-300 hover:text-[#00FF9D] transition-colors"
+            aria-label="Menü"
+          >
+            <FaBars className="text-xl" />
+          </button>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#00FF9D] animate-pulse"></span>
+            <span className="text-sm font-bold tracking-widest text-[#00FF9D] font-mono">DZVN ADMIN</span>
+          </div>
+        </div>
+
+        <div className="p-6 md:p-10 max-w-7xl mx-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}

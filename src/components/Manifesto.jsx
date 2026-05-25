@@ -31,8 +31,8 @@ const Manifesto = () => {
              </svg>
           </div>
           <div>
-            <h3 style={{ fontSize: '1.8rem', fontFamily: 'Playfair Display', color: '#2C241B', marginBottom: '0.5rem' }}>Zamanın Gerçekliği</h3>
-            <p style={{ fontSize: '1.15rem', color: 'rgba(44, 36, 27, 0.8)', lineHeight: '1.7' }}>
+            <h3 className="manifesto-card-title">Zamanın Gerçekliği</h3>
+            <p className="manifesto-card-desc">
               Bir yandan üniversite eğitimime devam ederken diğer yandan projeler geliştiriyorum. Bu yüzden tutamayacağım süslü vaatler vermem; gerçekçi teslim tarihleri belirler ve sözümü tutarım.
             </p>
           </div>
@@ -53,8 +53,8 @@ const Manifesto = () => {
             </svg>
           </div>
           <div>
-            <h3 style={{ fontSize: '1.8rem', fontFamily: 'Playfair Display', color: '#2C241B', marginBottom: '0.5rem' }}>Önce Benim İçime Sinmeli</h3>
-            <p style={{ fontSize: '1.15rem', color: 'rgba(44, 36, 27, 0.8)', lineHeight: '1.7' }}>
+            <h3 className="manifesto-card-title">Önce Benim İçime Sinmeli</h3>
+            <p className="manifesto-card-desc">
               Sadece 'işi teslim edip parayı almak' için kod yazmam. Yaptığım tasarım ve yazdığım sistem önce benim estetik ve teknik standartlarımdan geçmeli. Ben beğenmiyorsam, yayına almam.
             </p>
           </div>
@@ -75,8 +75,8 @@ const Manifesto = () => {
              </svg>
           </div>
           <div>
-            <h3 style={{ fontSize: '1.8rem', fontFamily: 'Playfair Display', color: '#2C241B', marginBottom: '0.5rem' }}>Eleştiriye Açığım</h3>
-            <p style={{ fontSize: '1.15rem', color: 'rgba(44, 36, 27, 0.8)', lineHeight: '1.7' }}>
+            <h3 className="manifesto-card-title">Eleştiriye Açığım</h3>
+            <p className="manifesto-card-desc">
               Ego ile değil, empati ile çalışırım. Projenin daha iyi olması için gelen her yapıcı eleştiriyi bir gelişim fırsatı olarak görür, esneklikle kodlarıma ve tasarımlara yansıtırım.
             </p>
           </div>

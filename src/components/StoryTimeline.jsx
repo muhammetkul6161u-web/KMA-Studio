@@ -58,9 +58,9 @@ const StoryTimeline = () => {
             transition={{ duration: 0.6 }}
             className="story-content"
           >
-            <span style={{ fontSize: '4rem', color: '#C18C5D', opacity: 0.5, fontFamily: 'Playfair Display' }}>{storyData[currentIndex].id}</span>
-            <h3 style={{ fontSize: '2.5rem', fontFamily: 'Playfair Display', marginBottom: '1rem' }}>{storyData[currentIndex].title}</h3>
-            <p style={{ fontSize: '1.2rem', lineHeight: '1.8', maxWidth: '700px' }}>{storyData[currentIndex].desc}</p>
+            <span className="story-id">{storyData[currentIndex].id}</span>
+            <h3 className="story-title">{storyData[currentIndex].title}</h3>
+            <p className="story-desc">{storyData[currentIndex].desc}</p>
           </motion.div>
         </AnimatePresence>
       </div>
